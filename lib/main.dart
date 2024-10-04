@@ -15,6 +15,7 @@ import 'dart:typed_data';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,7 +42,13 @@ class MyApp extends StatelessWidget {
         const Locale('en', 'US'),
         const Locale('ko', 'KR'), // 한국어 추가
       ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
     );
+
   }
 }
 
@@ -154,10 +161,20 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
     _startTimer();
 
     try {
+      var keyResponse = await http.get(Uri.parse('https://heuton.kr/api/roast-my'));
+      if (keyResponse.statusCode != 200) {
+        setState(() {
+          analysisResult = 'Failed to get API key from the backend.';
+        });
+        return;
+      }
+      
+      var apiKey = jsonDecode(keyResponse.body)['oak']; // 백엔드가 반환하는 key를 사용
+
       var response = await http.post(
         Uri.parse('https://api.openai.com/v1/chat/completions'),
         headers: {
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer $apiKey',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
@@ -166,7 +183,7 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
           'messages': [
             {'role': 'system', 'content': 'You are a helpful assistant.'},
             {'role': 'user', 'content': [
-              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two paragraphs. Start each paragraph with an emoji that best describes the content. Be as sarcastic and cynical as possible. IMPORTANT: your response has to be in Korean, perfectly fluent, easy to understand, and non-honorific.'},
+              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two brief paragraphs. Be as sarcastic and cynical as possible. Point out specific photos to ROAST. IMPORTANT: your response has to be in perfectly fluent Korean, very easy to understand, and non-honorific.'},
               {'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,$imageBase64'}}
             ]}
           ],
@@ -232,6 +249,9 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // SizedBox(height:20),
+                  if (analysisResult.isNotEmpty)
+                  AdSenseBanner(),
+                  if (analysisResult.isEmpty)
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
@@ -240,70 +260,70 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Align(
-                            alignment: Alignment.center, // 좌측 정렬
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                'images/roast_insta_logo.png',
-                                width: 80,
-                                height: 80,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: analysisResult.isEmpty ? EdgeInsets.only(bottom: 20) : EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            'GPT의 인스타 로스트',
-                            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        if (analysisResult.isEmpty)
-                        Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(12),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '*로스트(Roast)란?',
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87, ),
-                                        softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                        overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                      ),
-                                      SizedBox(height:10),
-                                      Text(
-                                        '상대방을 비꼬는 방식으로 지적하며 조롱하는 것을 의미해요. GPT가 내 인스타 프로필을 로스트합니다.',
-                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87, ),
-                                        softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                        overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      Divider(color: Colors.black54,),
-                                      Text(
-                                        '⚠️상처주의. 재미로만 즐겨주세요!',
-                                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87, ),
-                                        softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                        overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                      ),
-                                    ],
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Align(
+                                alignment: Alignment.center, // 좌측 정렬
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    'images/roast_insta_logo.png',
+                                    width: 80,
+                                    height: 80,
                                   ),
-                                )
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
+                            Padding(
+                              padding: analysisResult.isEmpty ? EdgeInsets.only(bottom: 20) : EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'GPT의 인스타 로스트',
+                                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            '*로스트(Roast)란?',
+                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87, ),
+                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                          ),
+                                          SizedBox(height:10),
+                                          Text(
+                                            '상대방을 비꼬는 방식으로 지적하며 조롱하는 것을 의미해요. GPT가 내 인스타 프로필을 로스트합니다.',
+                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87, ),
+                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Divider(color: Colors.black54,),
+                                          Text(
+                                            '⚠️상처주의. 재미로만 즐겨주세요!',
+                                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87, ),
+                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ),
+                                ),
+                              ],
+                            ),
+                          
+                        ],
                     ),
                   ),
                   if (analysisResult.isEmpty)
@@ -465,6 +485,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                             ),
                           ],
                         ),
+                        if (analysisResult.isEmpty)
+                        AdSenseBanner(),
                         SizedBox(height:100)
                       ],
                     ),
