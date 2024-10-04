@@ -68,12 +68,11 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
 
   int _currentIndex = 0;
   final List<String> _messages = [
-    "이미지 보는 중...",
     "비웃는 중...",
-    "어이없어하는 중...",
+    "조롱하는 중...",
     "상처받을까봐 조심하(지 않)는 중...",
     "비꼬는 중...",
-    "조롱하는 중...",
+    "어이없어하는 중...",
     "로스트하는 중...",
   ];
 
@@ -183,7 +182,7 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
           'messages': [
             {'role': 'system', 'content': 'You are a helpful assistant.'},
             {'role': 'user', 'content': [
-              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two brief paragraphs. Be as sarcastic and cynical as possible. Point out specific photos to ROAST. IMPORTANT: your response has to be in perfectly fluent Korean, very easy to understand, and non-honorific.'},
+              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two brief paragraphs. Be as sarcastic, cynical, and revolting as possible. Point out specific photos to roast. IMPORTANT: your response has to be in perfectly fluent Korean, easy and straightforward language, and non-honorific.'},
               {'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,$imageBase64'}}
             ]}
           ],
