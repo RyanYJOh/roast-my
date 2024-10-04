@@ -442,6 +442,24 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                             Positioned.fill(
                               child: Center(
                                 child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.asset(
+                                        'images/roast_insta_logo.png',
+                                        width: 40,
+                                        height: 40,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ),
+                            Positioned.fill(
+                              child: Center(
+                                child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -474,15 +492,15 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                         if (analysisResult.isNotEmpty)
                         Column(
                           children: [
-                            AdSenseBanner(),
                             Padding(
                               padding: const EdgeInsets.only(top: 12.0),
                               child: CustomButtonFlatPrimaryLg(
-                                icon: Icon(Icons.share_sharp, color: Colors.white, size: 16,),
+                                icon: Icon(Icons.share_sharp, color: Colors.white, size: 14,),
                                 buttonText: '친구에게도 알려주기',
                                 onPressed: copyCurrentPageUrl,
                               ),
                             ),
+                            AdSenseBanner(),
                           ],
                         ),
                         if (analysisResult.isEmpty)
@@ -552,6 +570,7 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
       print('클립보드 복사가 이 브라우저에서 지원되지 않습니다.');
     }
   }
+
 }
 
 class AdSenseBanner extends StatelessWidget {
