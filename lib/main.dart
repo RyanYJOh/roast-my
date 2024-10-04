@@ -15,6 +15,7 @@ import 'dart:typed_data';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:js' as js;
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -23,8 +24,11 @@ void main() {
 }
 
 void initializeAmplitude() async {
-  Amplitude amplitude = Amplitude.getInstance(instanceName: "default");
-  amplitude.init('e63d0d5b53b8a80265b721effe52ea89');  // API 키를 여기에 입력
+  js.context.callMethod('amplitude', ['init', '936ded9e0084471e45cd16f47b36d779']);
+}
+
+void logEvent(String eventName, [Map<String, dynamic>? properties]) {
+    js.context.callMethod('amplitude', ['logEvent', eventName, properties ?? {}]);
 }
 
 class MyApp extends StatelessWidget {
@@ -79,8 +83,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
   @override
   void initState() {
     super.initState();
-    
-    Amplitude.getInstance(instanceName: "default").logEvent("Pageview roast-home", eventProperties: {});
+    logEvent('Pageview roast-home');
+    // Amplitude.getInstance(instanceName: "default").logEvent("Pageview roast-home", eventProperties: {});
     if (isLoading) {
       _startTimer();
     }
@@ -150,7 +154,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
 
   Future<void> analyzeImage() async {
     if (imageBase64 == null || isRoastButtonDisabled) return;
-    Amplitude.getInstance(instanceName: "default").logEvent("Click start-roast", eventProperties: {});
+    // Amplitude.getInstance(instanceName: "default").logEvent("Click start-roast", eventProperties: {});
+    logEvent('Click start-roast');
 
     setState(() {
       isRoastButtonDisabled = true;
@@ -197,7 +202,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
             // UTF-8 디코딩 적용
             analysisResult = utf8.decode(decodedResponse['choices'][0]['message']['content'].codeUnits);
           });
-          Amplitude.getInstance(instanceName: "default").logEvent("View result", eventProperties: {});
+          // Amplitude.getInstance(instanceName: "default").logEvent("View result", eventProperties: {});
+          logEvent('View result');
         } else {
           setState(() {
             analysisResult = 'No valid response from the server.';
@@ -519,7 +525,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
   }
 
   Widget _buildUploadButton() {
-    Amplitude.getInstance(instanceName: "default").logEvent("Click upload-image", eventProperties: {});
+    logEvent('Click upload-image');
+    // Amplitude.getInstance(instanceName: "default").logEvent("Click upload-image", eventProperties: {});
     return GestureDetector(
       onTap: pickImage,
       child: Container(
@@ -561,7 +568,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-        Amplitude.getInstance(instanceName: "default").logEvent("Click share", eventProperties: {});
+        logEvent('Click share');
+        // Amplitude.getInstance(instanceName: "default").logEvent("Click share", eventProperties: {});
       }).catchError((err) {
         print('URL 복사에 실패했습니다: $err');
       });
