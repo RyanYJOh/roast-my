@@ -24,11 +24,11 @@ void main() {
 }
 
 void initializeAmplitude() async {
-  js.context.callMethod('amplitude', ['init', '936ded9e0084471e45cd16f47b36d779']);
+  js.context.callMethod('amplitude.getInstance().init', ['936ded9e0084471e45cd16f47b36d779']);
 }
 
 void logEvent(String eventName, [Map<String, dynamic>? properties]) {
-    js.context.callMethod('amplitude', ['logEvent', eventName, properties ?? {}]);
+    js.context.callMethod('amplitude.getInstance().logEvent', [eventName, js.JsObject.jsify(properties ?? {})]);
 }
 
 class MyApp extends StatelessWidget {
