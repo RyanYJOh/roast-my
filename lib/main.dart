@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'GPT의 인스타 로스트 🔥',
+      // title: 'GPT의 인스타 로스트 🔥',
+      title: 'GPT의 인스타 분석 🔥',
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'gowun',
@@ -72,12 +73,13 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
 
   int _currentIndex = 0;
   final List<String> _messages = [
-    "비웃는 중...",
-    "조롱하는 중...",
-    "상처받을까봐 조심하(지 않)는 중...",
-    "비꼬는 중...",
-    "어이없어하는 중...",
-    "로스트하는 중...",
+    "이미지 보는 중...",
+    // "비웃는 중...",
+    // "조롱하는 중...",
+    // "상처받을까봐 조심하(지 않)는 중...",
+    // "비꼬는 중...",
+    // "어이없어하는 중...",
+    // "로스트하는 중...",
   ];
 
   @override
@@ -183,11 +185,11 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
         },
         body: jsonEncode({
           'model': 'gpt-4o-mini',
-          // 'model': 'gpt-4o-2024-08-06',
           'messages': [
             {'role': 'system', 'content': 'You are a helpful assistant.'},
             {'role': 'user', 'content': [
-              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two brief paragraphs. Be as sarcastic, cynical, and revolting as possible. Point out specific photos to roast. IMPORTANT: your response has to be in perfectly fluent Korean, easy and straightforward language, and non-honorific.'},
+              // {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to roast it in two brief paragraphs. Be as sarcastic, cynical, and revolting as possible. Point out specific photos to roast. IMPORTANT: your response has to be in perfectly fluent Korean, easy and straightforward language, and non-honorific.'},
+              {'type': 'text', 'text': 'This screenshot is my Instagram profile page. I want you to analyze as much as possible.'},
               {'type': 'image_url', 'image_url': {'url': 'data:image/jpeg;base64,$imageBase64'}}
             ]}
           ],
@@ -281,7 +283,8 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                             Padding(
                               padding: analysisResult.isEmpty ? EdgeInsets.only(bottom: 20) : EdgeInsets.only(bottom: 10),
                               child: Text(
-                                'GPT의 인스타 로스트',
+                                // 'GPT의 인스타 로스트',
+                                'GPT의 인스타 분석',
                                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900),
                                 textAlign: TextAlign.center,
                               ),
@@ -299,27 +302,27 @@ class _ImageUploaderPageState extends State<ImageUploaderPage> {
                                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                                       child: Column(
                                         children: [
-                                          Text(
-                                            '*로스트(Roast)란?',
-                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87, ),
-                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                          ),
-                                          SizedBox(height:10),
-                                          Text(
-                                            '상대방을 비꼬는 방식으로 지적하며 조롱하는 것을 의미해요. GPT가 내 인스타 프로필을 로스트합니다.',
-                                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87, ),
-                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Divider(color: Colors.black54,),
-                                          Text(
-                                            '⚠️상처주의. 재미로만 즐겨주세요!',
-                                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87, ),
-                                            softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
-                                            overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
-                                          ),
+                                          // Text(
+                                          //   '*로스트(Roast)란?',
+                                          //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87, ),
+                                          //   softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                          //   overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                          // ),
+                                          // SizedBox(height:10),
+                                          // Text(
+                                          //   '상대방을 비꼬는 방식으로 지적하며 조롱하는 것을 의미해요. GPT가 내 인스타 프로필을 로스트합니다.',
+                                          //   style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.black87, ),
+                                          //   softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                          //   overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                          //   textAlign: TextAlign.center,
+                                          // ),
+                                          // Divider(color: Colors.black54,),
+                                          // Text(
+                                          //   '⚠️상처주의. 재미로만 즐겨주세요!',
+                                          //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87, ),
+                                          //   softWrap: true, // 텍스트가 화면을 벗어날 경우 줄바꿈을 허용
+                                          //   overflow: TextOverflow.visible, // 넘칠 경우 텍스트가 잘리지 않도록 설정
+                                          // ),
                                         ],
                                       ),
                                     )
