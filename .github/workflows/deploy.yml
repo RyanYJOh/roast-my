@@ -23,6 +23,7 @@ jobs:
 
     - name: Build Web
       run: flutter build web --release
+      run: flutter build web --release --base-href "/"
 
     - name: Add .nojekyll
       run: echo > build/web/.nojekyll
@@ -32,5 +33,6 @@ jobs:
       with:
         github_token: ${{ secrets.gptroastsmyinstagram }} # repository에서 사용할 시크릿 키 이름
         publish_dir: build/web
+        cname: roast-my.site 
         publish_branch: gh-pages
  
