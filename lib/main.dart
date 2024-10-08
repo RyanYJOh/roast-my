@@ -5,16 +5,12 @@ import 'dart:html' as html;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:ui';
 import 'custom_widgets.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:lottie/lottie.dart'; // lottie 애니메이션을 사용
 import 'dart:typed_data';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:amplitude_flutter/amplitude.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:js' as js;
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -35,7 +31,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // title: 'GPT의 인스타 로스트 🔥',
       title: 'GPT의 인스타 로스트 🔥',
       theme: ThemeData(
         useMaterial3: true,
@@ -45,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: ImageUploaderPage(),
       supportedLocales: [
         const Locale('en', 'US'),
-        const Locale('ko', 'KR'), // 한국어 추가
+        const Locale('ko', 'KR'),
       ],
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -53,7 +48,6 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
     );
-
   }
 }
 

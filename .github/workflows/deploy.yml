@@ -16,22 +16,32 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.24.3' # 사용하는 Flutter 버전으로 변경
+        flutter-version: '3.24.3'
 
     - name: Install Dependencies
       run: flutter pub get
 
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d-%H-%M-%S')"
+
     - name: Build Web
-      run: flutter build web --release --base-href "/"
+      run: |
+        flutter build web --release --base-href "/"
+        echo "const String buildDate = '${${{ steps.date.outputs.date }}}'" > lib/build_info.dart
+
+    - name: Update index.html
+      run: |
+        sed -i 's|<head>|<head>\n  <meta name="build-date" content="${{ steps.date.outputs.date }}">|g' build/web/index.html
 
     - name: Add .nojekyll
-      run: echo > build/web/.nojekyll
+      run: touch build/web/.nojekyll
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.gptroastsmyinstagram }} # repository에서 사용할 시크릿 키 이름
+        github_token: ${{ secrets.gptroastsmyinstagram }}
         publish_dir: build/web
         cname: roast-my.site 
         publish_branch: gh-pages
- 
+        force_orphan: true

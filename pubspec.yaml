@@ -76,9 +76,6 @@ flutter:
     - assets/lotties/fire.json
   
   fonts:
-    - family: jnYuna
-      fonts:
-        - asset: assets/fonts/jn_yuna.ttf
     - family: gowun
       fonts:
         - asset: assets/fonts/GowunBatang-Bold.ttf
