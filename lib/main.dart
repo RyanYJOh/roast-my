@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       // title: 'GPT의 인스타 로스트 🔥',
-      title: 'GPT의 인스타 분석 🔥',
+      title: 'GPT의 인스타 로스트 🔥',
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'gowun',
